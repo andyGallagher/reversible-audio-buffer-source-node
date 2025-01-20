@@ -9,7 +9,11 @@
         "reversible",
         "audio",
         "node",
-        "buffer"
+        "buffer",
+        "webaudio",
+        "negative",
+        "playback",
+        "playbackrate"
     ],
     "author": "Andy Gallagher",
     "license": "MIT",
