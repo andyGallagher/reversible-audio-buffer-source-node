@@ -1,9 +1,9 @@
 {
     "name": "reversible-audio-node",
     "version": "0.0.1",
-    "description": "",
+    "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest"
     },
     "keywords": [
         "reversible",
@@ -12,7 +12,7 @@
         "buffer"
     ],
     "author": "Andy Gallagher",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@types/node": "^22.10.7",
         "tsx": "^4.19.2",
