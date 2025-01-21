@@ -5,6 +5,7 @@
     "scripts": {
         "test": "vitest"
     },
+    "homepage": "https://github.com/andyGallagher/reversible-audio-buffer-source-node",
     "keywords": [
         "reversible",
         "audio",
@@ -15,7 +16,11 @@
         "playback",
         "playbackrate"
     ],
-    "author": "Andy Gallagher",
+    "author": "Andy Gallagher (https://www.andy-gallagher.com)",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/andyGallagher/reversible-audio-buffer-source-node.git"
+    },
     "license": "MIT",
     "devDependencies": {
         "@types/node": "^22.10.7",
@@ -23,5 +28,6 @@
         "typescript": "^5.7.3",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^3.0.2"
-    }
+    },
+    "type": "module"
 }
