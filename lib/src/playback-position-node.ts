@@ -37,7 +37,6 @@ export class PlaybackPositionNode {
     private sampleHolder: Float32Array;
 
     private isPlaying: boolean = false;
-    private hasCompleted: boolean = false;
 
     constructor(context: BaseAudioContext) {
         this.context = context;
@@ -46,6 +45,20 @@ export class PlaybackPositionNode {
         this.out = new ChannelMergerNode(context);
         this.sampleHolder = new Float32Array(1);
         this.analyser = new AnalyserNode(this.context);
+    }
+
+    set buffer(audioBuffer: AudioBuffer) {
+        const playbackPositionChannel =
+            makePlaybackPositionChannelData(audioBuffer);
+        const audioBufferWithPlaybackPositionChannel =
+            makeAudioBufferWithPlaybackPositionChannel(
+                audioBuffer,
+                playbackPositionChannel,
+            );
+
+        this.audioBuffer = audioBufferWithPlaybackPositionChannel;
+        this.rawAudioBufferNumberOfChannels =
+            audioBufferWithPlaybackPositionChannel.numberOfChannels - 1;
     }
 
     detune(value: number) {
@@ -66,29 +79,10 @@ export class PlaybackPositionNode {
         this.bufferSource.playbackRate.value = rate;
     }
 
-    // get current progress between 0 and 1
+    // Get current progress between 0 and 1
     playbackPosition(): number {
         this.analyser?.getFloatTimeDomainData(this.sampleHolder);
-
-        if (this.hasCompleted) {
-            return 1;
-        }
-
         return this.sampleHolder[0];
-    }
-
-    set buffer(audioBuffer: AudioBuffer) {
-        const playbackPositionChannel =
-            makePlaybackPositionChannelData(audioBuffer);
-        const audioBufferWithPlaybackPositionChannel =
-            makeAudioBufferWithPlaybackPositionChannel(
-                audioBuffer,
-                playbackPositionChannel,
-            );
-
-        this.audioBuffer = audioBufferWithPlaybackPositionChannel;
-        this.rawAudioBufferNumberOfChannels =
-            audioBufferWithPlaybackPositionChannel.numberOfChannels - 1;
     }
 
     start(when?: number, offset?: number, duration?: number): void {
@@ -124,19 +118,6 @@ export class PlaybackPositionNode {
         );
 
         this.isPlaying = true;
-
-        /**
-         * We have to track when the audio has completed playing, as on track completion
-         * a track is reset to 0:00 per the AudioBufferSourceNode spec.  This means that
-         * our analyzer node will return 0 on track completion.  This might be fine, but we also
-         * need to skip over initialization value (also 0) to figure out the correct playback position.
-         *
-         * We work around this by tracking when the audio has completed playing, and setting a flag.
-         */
-        this.hasCompleted = false;
-        this.bufferSource.onended = () => {
-            this.hasCompleted = true;
-        };
     }
 
     stop() {

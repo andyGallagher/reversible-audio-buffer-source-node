@@ -46,16 +46,6 @@ export class ReversibleAudioBufferSourceNode {
         this.reverseNode.buffer = buffers.reverse;
     }
 
-    detune(value: number) {
-        this.forwardNode.detune(value);
-        this.reverseNode.detune(value);
-    }
-
-    playbackRate(rate: number) {
-        this.forwardNode.playbackRate(rate);
-        this.reverseNode.playbackRate(rate);
-    }
-
     setDirection(direction: ReversibleAudioBufferSourceNodeDirection) {
         if (this.maxDuration === null) {
             throw new ReversibleAudioBufferSourceNodeError(
@@ -96,6 +86,16 @@ export class ReversibleAudioBufferSourceNode {
         return this.direction === "forward"
             ? this.forwardNode
             : this.reverseNode;
+    }
+
+    detune(value: number) {
+        this.forwardNode.detune(value);
+        this.reverseNode.detune(value);
+    }
+
+    playbackRate(rate: number) {
+        this.forwardNode.playbackRate(rate);
+        this.reverseNode.playbackRate(rate);
     }
 
     start() {
