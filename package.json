@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
+        "build": "DIST=$(pwd)/dist pnpm --dir=lib build",
         "test": "vitest"
     },
     "homepage": "https://github.com/andyGallagher/reversible-audio-buffer-source-node",

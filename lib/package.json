@@ -1,8 +1,8 @@
 {
     "private": true,
     "name": "lib",
-    "description": "",
+    "description": "Library functions for the reversible-audio-buffer-source-node",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "tsc --outDir $DIST"
     }
 }
