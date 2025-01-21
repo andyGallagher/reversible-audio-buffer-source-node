@@ -31,7 +31,6 @@ const reverseAudioBuffer = (
 
 let didInitialize = false;
 let isPlaying = false;
-let isReverse = false;
 
 const onInteractionHandler = async () => {
     if (didInitialize) {

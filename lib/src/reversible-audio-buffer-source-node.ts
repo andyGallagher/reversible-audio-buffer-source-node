@@ -30,7 +30,7 @@ export class ReversibleAudioBufferSourceNode {
     private out: ChannelMergerNode;
     private onendedHandler: (() => void) | null = null;
 
-    private direction: "forward" | "reverse" = "forward";
+    public direction: "forward" | "reverse" = "forward";
 
     constructor(context: BaseAudioContext) {
         this.context = context;
