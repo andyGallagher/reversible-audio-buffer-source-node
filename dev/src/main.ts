@@ -54,7 +54,6 @@ const onInteractionHandler = async () => {
         forward: audioBuffer,
         reverse: reversedAudioBuffer,
     };
-    console.log({ audioBuffer, reversedAudioBuffer });
     reversibleAudioBufferSourceNode.connect(audioContext.destination);
 
     const loadingElement = document.getElementById("loading");

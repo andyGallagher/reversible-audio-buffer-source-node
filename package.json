@@ -27,6 +27,9 @@
     "license": "MIT",
     "main": "index.js",
     "devDependencies": {
+        "@types/node": "^22.10.5",
+        "eslint": "^8.57.0",
+        "eslint-plugin-no-relative-import-paths": "^1.6.1",
         "prettier": "^3.4.2",
         "tsx": "^4.19.2",
         "typescript": "~5.6.2",
