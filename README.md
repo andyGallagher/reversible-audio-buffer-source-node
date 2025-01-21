@@ -39,7 +39,7 @@ import { ReversibleAudioBufferSourceNode } from "reversible-audio-buffer-source-
 
 This package specifically deals with `AudioBuffer`s, and can quickly get somewhat computationally expensive to use when working with large buffers. It's important to note that `AudioBuffer`s in general were designed to [work with small audio snippets less than 45s in length](https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer).
 
-That said, this package does leave some room for a few performance optimizations:
+That said, this package does leave some room for a few performance optimizations, noted below.
 
 ### Pre-process reversed audio buffer
 
@@ -60,7 +60,8 @@ For more details, see our [`reverseAudioBuffer`](https://github.com/andyGallaghe
 
 ### Pre-process playback position channel
 
-> **Note:** For more information about our approach and why it's still necessary to create an additional channel to accurately track audio playback time, refer to [this thread](https://github.com/WebAudio/web-audio-api/issues/2397).
+> [!NOTE]
+> For more information about our approach and why it's still necessary to create an additional channel to accurately track audio playback time, refer to [this thread](https://github.com/WebAudio/web-audio-api/issues/2397).
 
 A user can supply the reversed audio buffer with an additional playback position channel already supplied.
 
