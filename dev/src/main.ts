@@ -76,9 +76,10 @@ const onInteractionHandler = async () => {
         throw new Error("No currentRate element found");
     }
 
-    reversibleAudioBufferSourceNode.onended = () => {
+    reversibleAudioBufferSourceNode.onended = (direction) => {
         isPlaying = false;
         playbackRateInput.setAttribute("disabled", "true");
+        console.info(`Playback ended in ${direction} direction`);
     };
 
     playButton.removeAttribute("disabled");

@@ -1,6 +1,10 @@
 import { PlaybackPositionNode } from "./playback-position-node";
 
-type ReversibleAudioBufferSourceNodeDirection = "forward" | "reverse";
+export type ReversibleAudioBufferSourceNodeDirection = "forward" | "reverse";
+
+type ReversibleAudioBufferSourceNodeOnendedHandler = (
+    direction: ReversibleAudioBufferSourceNodeDirection,
+) => void;
 
 export interface ReversibleAudioBufferSourceNodeData {
     forward: AudioBuffer;
@@ -28,9 +32,10 @@ export class ReversibleAudioBufferSourceNode {
     private forwardNode: PlaybackPositionNode;
     private reverseNode: PlaybackPositionNode;
     private out: ChannelMergerNode;
-    private onendedHandler: (() => void) | null = null;
+    private onendedHandler: ReversibleAudioBufferSourceNodeOnendedHandler | null =
+        null;
 
-    public direction: "forward" | "reverse" = "forward";
+    public direction: ReversibleAudioBufferSourceNodeDirection = "forward";
 
     constructor(context: BaseAudioContext) {
         this.context = context;
@@ -110,7 +115,9 @@ export class ReversibleAudioBufferSourceNode {
             );
 
             this.reverseNode.start(0, reverseStartTime);
-            this.reverseNode.onended = this.onendedHandler;
+            this.reverseNode.onended = () => {
+                this.onendedHandler?.("reverse");
+            };
 
             this.forwardNode.onended = null;
             this.forwardNode.stop();
@@ -123,7 +130,9 @@ export class ReversibleAudioBufferSourceNode {
             );
 
             this.forwardNode.start(0, forwardStartTime);
-            this.forwardNode.onended = this.onendedHandler;
+            this.forwardNode.onended = () => {
+                this.onendedHandler?.("forward");
+            };
 
             this.reverseNode.onended = null;
             this.reverseNode.stop();
@@ -158,8 +167,10 @@ export class ReversibleAudioBufferSourceNode {
         this.out.disconnect();
     }
 
-    set onended(handler: () => void) {
+    set onended(handler: ReversibleAudioBufferSourceNodeOnendedHandler | null) {
         this.onendedHandler = handler;
-        this.activeNode().onended = handler;
+        this.activeNode().onended = () => {
+            handler?.(this.direction);
+        };
     }
 }
