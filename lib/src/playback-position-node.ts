@@ -23,12 +23,16 @@ export class PlaybackPositionNode {
     public context: BaseAudioContext;
 
     private bufferSource: AudioBufferSourceNode | null = null;
-    private rawAudioBufferNumberOfChannels: number | null = null;
     private audioBuffer: AudioBuffer | null = null;
 
-    private bufferSourceOptions = {
+    private bufferSourceOptions: {
+        playbackRate: number;
+        detune: number;
+        onendedHandler: (() => void) | null;
+    } = {
         playbackRate: 1,
         detune: 0,
+        onendedHandler: null,
     };
 
     private splitter: ChannelSplitterNode;
@@ -60,20 +64,22 @@ export class PlaybackPositionNode {
     }
 
     detune(value: number) {
+        this.bufferSourceOptions.detune = value;
+
         if (this.bufferSource === null) {
-            throw new PlaybackPositionNodeError("No audio buffer set");
+            return;
         }
 
-        this.bufferSourceOptions.detune = value;
         this.bufferSource.detune.value = value;
     }
 
     playbackRate(rate: number) {
+        this.bufferSourceOptions.playbackRate = rate;
+
         if (this.bufferSource === null) {
-            throw new PlaybackPositionNodeError("No audio buffer set");
+            return;
         }
 
-        this.bufferSourceOptions.playbackRate = rate;
         this.bufferSource.playbackRate.value = rate;
     }
 
@@ -98,6 +104,7 @@ export class PlaybackPositionNode {
         this.bufferSource.playbackRate.value =
             this.bufferSourceOptions.playbackRate;
         this.bufferSource.detune.value = this.bufferSourceOptions.detune;
+        this.bufferSource.onended = this.bufferSourceOptions.onendedHandler;
 
         // Split the channels
         this.bufferSource.connect(this.splitter);
@@ -147,5 +154,15 @@ export class PlaybackPositionNode {
 
     disconnect() {
         this.out.disconnect();
+    }
+
+    set onended(handler: () => void) {
+        this.bufferSourceOptions.onendedHandler = handler;
+
+        if (this.bufferSource === null) {
+            return;
+        }
+
+        this.bufferSource.onended = handler;
     }
 }

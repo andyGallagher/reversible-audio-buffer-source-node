@@ -11,7 +11,25 @@
             <p>Click to load this page.</p>
             <p id="loading">Loading...</p>
             <button disabled id="play">Play</button>
-            <button disabled id="reverse">Reverse</button>
+
+            <div style="margin-top: 2rem">
+                <label for="playbackRate">Playback Rate</label>
+                <div>
+                    <span>-2</span>
+                    <input
+                        disabled="true"
+                        type="range"
+                        id="playbackRate"
+                        name="reverse"
+                        min="-2"
+                        value="1"
+                        max="2"
+                        step="0.01"
+                    />
+                    <span>2</span>
+                </div>
+                <div>Current rate: <span id="currentRate">1</span></div>
+            </div>
         </div>
         <script type="module" src="/src/main.ts"></script>
     </body>

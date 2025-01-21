@@ -152,4 +152,9 @@ export class ReversibleAudioBufferSourceNode {
     disconnect() {
         this.out.disconnect();
     }
+
+    set onended(handler: () => void) {
+        this.forwardNode.onended = handler;
+        this.reverseNode.onended = handler;
+    }
 }

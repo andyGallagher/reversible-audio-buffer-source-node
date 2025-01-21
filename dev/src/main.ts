@@ -67,35 +67,38 @@ const onInteractionHandler = async () => {
         throw new Error("No play button found");
     }
 
-    const reverseButton = document.getElementById("reverse");
-    if (!reverseButton) {
-        throw new Error("No reverse button found");
+    const playbackRateInput = document.getElementById("playbackRate");
+    if (!playbackRateInput) {
+        throw new Error("No playback rate input found");
     }
+
+    const currentRateElement = document.getElementById("currentRate");
+    if (!currentRateElement) {
+        throw new Error("No currentRate element found");
+    }
+
+    reversibleAudioBufferSourceNode.onended = () => {
+        isPlaying = false;
+        playbackRateInput.setAttribute("disabled", "true");
+    };
 
     playButton.removeAttribute("disabled");
     playButton.addEventListener("click", () => {
         if (isPlaying) {
             reversibleAudioBufferSourceNode.stop();
-            reverseButton.setAttribute("disabled", "true");
+            playbackRateInput.setAttribute("disabled", "true");
         } else {
             reversibleAudioBufferSourceNode.start();
-            reverseButton.removeAttribute("disabled");
+            playbackRateInput.removeAttribute("disabled");
         }
 
         isPlaying = !isPlaying;
     });
 
-    reverseButton.addEventListener("click", () => {
-        if (!isPlaying) {
-            console.warn("Cannot reverse while not playing");
-            return;
-        }
-
-        reversibleAudioBufferSourceNode.setDirection(
-            isReverse ? "forward" : "reverse",
-        );
-
-        isReverse = !isReverse;
+    playbackRateInput.addEventListener("input", (event) => {
+        const input = event.target as HTMLInputElement;
+        currentRateElement.textContent = input.value;
+        reversibleAudioBufferSourceNode.playbackRate(parseFloat(input.value));
     });
 };
 
