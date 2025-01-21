@@ -1,0 +1,16 @@
+{
+    "name": "dev",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "lib": "workspace:*"
+    },
+    "devDependencies": {
+        "vite": "^6.0.5"
+    }
+}

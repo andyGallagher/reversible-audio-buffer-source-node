@@ -1,9 +1,10 @@
 {
-    "name": "reversible-audio-node",
+    "name": "reversible-audio-buffer-source-node",
     "version": "0.0.1",
     "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
         "build": "DIST=$(pwd)/dist pnpm --dir=lib build",
+        "dev": "pnpm --dir=dev dev",
         "format": "pnpm run --recursive --if-present --filter=!notifications --parallel format",
         "test": "vitest"
     },
@@ -24,11 +25,11 @@
         "url": "git+https://github.com/andyGallagher/reversible-audio-buffer-source-node.git"
     },
     "license": "MIT",
+    "main": "index.js",
     "devDependencies": {
         "prettier": "^3.4.2",
         "tsx": "^4.19.2",
-        "typescript": "^5.7.3",
-        "vite-tsconfig-paths": "^5.1.4",
+        "typescript": "~5.6.2",
         "vitest": "^3.0.2"
     },
     "type": "module"
