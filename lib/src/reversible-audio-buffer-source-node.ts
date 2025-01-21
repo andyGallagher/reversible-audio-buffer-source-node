@@ -14,6 +14,12 @@ export class ReversibleAudioBufferSourceNodeError extends Error {
     }
 }
 
+/**
+ * Class that interprets negative a `playbackRate` as playing a track in reverse.
+ *
+ * We accomplish this by managing two child nodes (forward and reverse) and connecting them
+ * to a single `ChannelMergerNode`.
+ */
 export class ReversibleAudioBufferSourceNode {
     public context: BaseAudioContext;
 
@@ -32,20 +38,42 @@ export class ReversibleAudioBufferSourceNode {
         this.reverseNode = new PlaybackPositionNode(context);
 
         this.out = new ChannelMergerNode(context);
+
         this.forwardNode.connect(this.out);
         this.reverseNode.connect(this.out);
     }
 
-    set buffer(buffers: ReversibleAudioBufferSourceNodeData) {
+    set buffer(buffer: AudioBuffer | ReversibleAudioBufferSourceNodeData) {
+        /**
+         * If we are supplied a single buffer, reverse it in-situ for the user.
+         * Note that this should be pre-processed or at least performed in a worker for larger
+         * `audioBuffer`s.
+         */
+        const computedBuffers: ReversibleAudioBufferSourceNodeData = (() => {
+            if (buffer instanceof AudioBuffer) {
+                return {
+                    forward: buffer,
+                    reverse: buffer,
+                };
+            }
+
+            return buffer;
+        })();
+
+        // There might be subtle differences for preprocessed buffers.
+        // To prevent out of bounds errors, prefer the larger buffer.
         this.maxDuration = Math.max(
-            buffers.reverse.duration,
-            buffers.forward.duration,
+            computedBuffers.reverse.duration,
+            computedBuffers.forward.duration,
         );
 
-        this.forwardNode.buffer = buffers.forward;
-        this.reverseNode.buffer = buffers.reverse;
+        this.forwardNode.buffer = computedBuffers.forward;
+        this.reverseNode.buffer = computedBuffers.reverse;
     }
 
+    /**
+     * Utility method to manage which directional node is playing.
+     */
     setDirection(direction: ReversibleAudioBufferSourceNodeDirection) {
         if (this.maxDuration === null) {
             throw new ReversibleAudioBufferSourceNodeError(
@@ -104,10 +132,6 @@ export class ReversibleAudioBufferSourceNode {
 
     stop() {
         this.activeNode().stop();
-    }
-
-    playbackPosition() {
-        return this.activeNode().playbackPosition();
     }
 
     connect(destination: AudioNode, output?: number, input?: number): AudioNode;

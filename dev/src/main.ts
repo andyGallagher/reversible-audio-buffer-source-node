@@ -57,10 +57,6 @@ const onInteractionHandler = async () => {
     console.log({ audioBuffer, reversedAudioBuffer });
     reversibleAudioBufferSourceNode.connect(audioContext.destination);
 
-    setInterval(() => {
-        console.log(reversibleAudioBufferSourceNode.playbackPosition());
-    }, 100);
-
     const loadingElement = document.getElementById("loading");
     if (!loadingElement) {
         throw new Error("No loading found");

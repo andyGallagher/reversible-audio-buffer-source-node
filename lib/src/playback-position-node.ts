@@ -57,8 +57,6 @@ export class PlaybackPositionNode {
             );
 
         this.audioBuffer = audioBufferWithPlaybackPositionChannel;
-        this.rawAudioBufferNumberOfChannels =
-            audioBufferWithPlaybackPositionChannel.numberOfChannels - 1;
     }
 
     detune(value: number) {
@@ -86,42 +84,40 @@ export class PlaybackPositionNode {
     }
 
     start(when?: number, offset?: number, duration?: number): void {
-        console.log({ when, offset });
-        if (this.rawAudioBufferNumberOfChannels === null) {
+        if (this.audioBuffer === null) {
             throw new PlaybackPositionNodeError("No audio buffer set");
         }
+
+        const audioBufferNumberOfChannels =
+            this.audioBuffer.numberOfChannels - 1;
 
         this.bufferSource = new AudioBufferSourceNode(this.context);
         this.bufferSource.buffer = this.audioBuffer;
 
-        // set the options
+        // Set stored options
         this.bufferSource.playbackRate.value =
             this.bufferSourceOptions.playbackRate;
         this.bufferSource.detune.value = this.bufferSourceOptions.detune;
 
-        // split the channels
+        // Split the channels
         this.bufferSource.connect(this.splitter);
 
-        // connect all the audio channels to the line out
-        for (
-            let index = 0;
-            index < this.rawAudioBufferNumberOfChannels;
-            index++
-        ) {
+        // Connect all the audio channels to the line out
+        for (let index = 0; index < audioBufferNumberOfChannels; index++) {
             this.splitter.connect(this.out, index, index);
         }
 
         this.bufferSource.start(when, offset, duration);
-        this.splitter.connect(
-            this.analyser,
-            this.rawAudioBufferNumberOfChannels,
-        );
+        this.splitter.connect(this.analyser, audioBufferNumberOfChannels);
 
         this.isPlaying = true;
     }
 
     stop() {
-        // If we're not playing, don't stop and throw an error
+        // If we're not playing, don't stop and throw an error.
+        // Note that we call `stop` on nodes that have not started playing in
+        // `reversible-audio-buffer-source-node`, and we can probably manage that better and get
+        // closer to default WebAudioAPI behavior.
         if (!this.isPlaying) {
             return;
         }
