@@ -33,6 +33,12 @@ export const reverseAudioBuffer = (
     return reversedBuffer;
 };
 
+/**
+ * Make a channel of data that represents the playback position of the audio buffer.
+ *
+ * Note — this is a performance heavy method and users should (probably) supply their own
+ * preprocessed audio buffers.
+ */
 export const makePlaybackPositionChannelData = (
     audioBuffer: AudioBuffer,
 ): Float32Array => {
@@ -49,6 +55,13 @@ export const makePlaybackPositionChannelData = (
     return timeDataArray;
 };
 
+/**
+ * Make a new AudioBuffer with an extra channel that represents the playback position of the
+ * audio buffer.
+ *
+ * Note — this is a performance heavy method and users should (probably) supply their own
+ * preprocessed audio buffers.
+ */
 export const makeAudioBufferWithPlaybackPositionChannel = (
     audioBuffer: AudioBuffer,
     playbackPositionChannelData: Float32Array,
