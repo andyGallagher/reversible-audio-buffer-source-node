@@ -1,4 +1,11 @@
-import { PlaybackPositionNode } from "./playback-position-node";
+import {
+    PlaybackPositionNode,
+    PlaybackPositionNodeOptions,
+} from "./playback-position-node";
+import { reverseAudioBuffer } from "./util";
+
+export type ReversibleAudioBufferSourceNodeOptions =
+    PlaybackPositionNodeOptions & {};
 
 export type ReversibleAudioBufferSourceNodeDirection = "forward" | "reverse";
 
@@ -25,7 +32,7 @@ export class ReversibleAudioBufferSourceNodeError extends Error {
  * to a single `ChannelMergerNode`.
  */
 export class ReversibleAudioBufferSourceNode {
-    public context: BaseAudioContext;
+    public context: AudioContext;
 
     private maxDuration: number | null = null;
 
@@ -37,11 +44,14 @@ export class ReversibleAudioBufferSourceNode {
 
     public direction: ReversibleAudioBufferSourceNodeDirection = "forward";
 
-    constructor(context: BaseAudioContext) {
+    constructor(
+        context: AudioContext,
+        options?: ReversibleAudioBufferSourceNodeOptions,
+    ) {
         this.context = context;
 
-        this.forwardNode = new PlaybackPositionNode(context);
-        this.reverseNode = new PlaybackPositionNode(context);
+        this.forwardNode = new PlaybackPositionNode(context, options);
+        this.reverseNode = new PlaybackPositionNode(context, options);
 
         this.out = new ChannelMergerNode(context);
 
@@ -57,9 +67,11 @@ export class ReversibleAudioBufferSourceNode {
          */
         const computedBuffers: ReversibleAudioBufferSourceNodeData = (() => {
             if (buffer instanceof AudioBuffer) {
+                const reversedBuffer = reverseAudioBuffer(this.context, buffer);
+
                 return {
                     forward: buffer,
-                    reverse: buffer,
+                    reverse: reversedBuffer,
                 };
             }
 
@@ -77,6 +89,9 @@ export class ReversibleAudioBufferSourceNode {
         this.reverseNode.buffer = computedBuffers.reverse;
     }
 
+    /**
+     * Utility method for determining the active node based on the current direction.
+     */
     private activeNode() {
         return this.direction === "forward"
             ? this.forwardNode
@@ -88,6 +103,9 @@ export class ReversibleAudioBufferSourceNode {
         this.reverseNode.detune(value);
     }
 
+    /**
+     * Manage which node is currently playing by toggling between sign.
+     */
     playbackRate(rate: number) {
         const absRate = Math.abs(rate);
 

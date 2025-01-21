@@ -1,34 +1,5 @@
 import { ReversibleAudioBufferSourceNode } from "lib/src";
 
-const reverseAudioBuffer = (
-    audioContext: AudioContext,
-    audioBuffer: AudioBuffer,
-): AudioBuffer => {
-    const numberOfChannels = audioBuffer.numberOfChannels;
-    const length = audioBuffer.length;
-    const sampleRate = audioBuffer.sampleRate;
-    const reversedBuffer = audioContext.createBuffer(
-        numberOfChannels,
-        length,
-        sampleRate,
-    );
-
-    for (let channel = 0; channel < numberOfChannels; channel++) {
-        const channelData = audioBuffer.getChannelData(channel);
-        const reversedChannelData = reversedBuffer.getChannelData(channel);
-
-        for (
-            let i = 0, j = channelData.length - 1;
-            i < channelData.length;
-            i++, j--
-        ) {
-            reversedChannelData[i] = channelData[j];
-        }
-    }
-
-    return reversedBuffer;
-};
-
 let didInitialize = false;
 let isPlaying = false;
 
@@ -44,15 +15,11 @@ const onInteractionHandler = async () => {
     const arrayBuffer = await response.arrayBuffer();
 
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    const reversedAudioBuffer = reverseAudioBuffer(audioContext, audioBuffer);
 
     const reversibleAudioBufferSourceNode = new ReversibleAudioBufferSourceNode(
         audioContext,
     );
-    reversibleAudioBufferSourceNode.buffer = {
-        forward: audioBuffer,
-        reverse: reversedAudioBuffer,
-    };
+    reversibleAudioBufferSourceNode.buffer = audioBuffer;
     reversibleAudioBufferSourceNode.connect(audioContext.destination);
 
     const loadingElement = document.getElementById("loading");

@@ -1,16 +1,16 @@
-// @ SEE https://github.com/kurtsmurf/whirly/blob/master/src/index.js
-// @ SEE https://github.com/WebAudio/web-audio-api/issues/2397#issuecomment-1887161919
-
-// playback position hack:
-// https://github.com/WebAudio/web-audio-api/issues/2397#issuecomment-459514360
-
-// composite audio node:
-// https://github.com/GoogleChromeLabs/web-audio-samples/wiki/CompositeAudioNode
+/**
+ * Much inspiraction from this code comes from the this github thread:
+ * @see https://github.com/WebAudio/web-audio-api/issues/2397
+ */
 
 import {
     makeAudioBufferWithPlaybackPositionChannel,
     makePlaybackPositionChannelData,
 } from "./util";
+
+export type PlaybackPositionNodeOptions = {
+    shouldCreatePlaybackPositionChannel: boolean;
+};
 
 export class PlaybackPositionNodeError extends Error {
     constructor(message: string) {
@@ -22,9 +22,8 @@ export class PlaybackPositionNodeError extends Error {
 export class PlaybackPositionNode {
     public context: BaseAudioContext;
 
-    private bufferSource: AudioBufferSourceNode | null = null;
     private audioBuffer: AudioBuffer | null = null;
-
+    private bufferSource: AudioBufferSourceNode | null = null;
     private bufferSourceOptions: {
         playbackRate: number;
         detune: number;
@@ -39,19 +38,31 @@ export class PlaybackPositionNode {
     private out: ChannelMergerNode;
     private analyser: AnalyserNode;
     private sampleHolder: Float32Array;
+    private shouldCreatePlaybackPositionChannel: boolean;
 
     private isPlaying: boolean = false;
 
-    constructor(context: BaseAudioContext) {
+    constructor(
+        context: BaseAudioContext,
+        options?: PlaybackPositionNodeOptions,
+    ) {
         this.context = context;
 
         this.splitter = new ChannelSplitterNode(context);
         this.out = new ChannelMergerNode(context);
         this.sampleHolder = new Float32Array(1);
         this.analyser = new AnalyserNode(this.context);
+
+        this.shouldCreatePlaybackPositionChannel =
+            options?.shouldCreatePlaybackPositionChannel ?? true;
     }
 
     set buffer(audioBuffer: AudioBuffer) {
+        if (!this.shouldCreatePlaybackPositionChannel) {
+            this.audioBuffer = audioBuffer;
+            return;
+        }
+
         const playbackPositionChannel =
             makePlaybackPositionChannelData(audioBuffer);
         const audioBufferWithPlaybackPositionChannel =
