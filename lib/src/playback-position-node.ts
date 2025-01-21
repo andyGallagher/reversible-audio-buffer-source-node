@@ -156,7 +156,7 @@ export class PlaybackPositionNode {
         this.out.disconnect();
     }
 
-    set onended(handler: () => void) {
+    set onended(handler: (() => void) | null) {
         this.bufferSourceOptions.onendedHandler = handler;
 
         if (this.bufferSource === null) {

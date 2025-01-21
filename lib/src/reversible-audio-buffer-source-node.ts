@@ -28,6 +28,7 @@ export class ReversibleAudioBufferSourceNode {
     private forwardNode: PlaybackPositionNode;
     private reverseNode: PlaybackPositionNode;
     private out: ChannelMergerNode;
+    private onendedHandler: (() => void) | null = null;
 
     private direction: "forward" | "reverse" = "forward";
 
@@ -74,7 +75,7 @@ export class ReversibleAudioBufferSourceNode {
     /**
      * Utility method to manage which directional node is playing.
      */
-    setDirection(direction: ReversibleAudioBufferSourceNodeDirection) {
+    private setDirection(direction: ReversibleAudioBufferSourceNodeDirection) {
         if (this.maxDuration === null) {
             throw new ReversibleAudioBufferSourceNodeError(
                 "No audio buffer set",
@@ -93,6 +94,9 @@ export class ReversibleAudioBufferSourceNode {
             );
 
             this.reverseNode.start(0, reverseStartTime);
+            this.reverseNode.onended = this.onendedHandler;
+
+            this.forwardNode.onended = null;
             this.forwardNode.stop();
             this.direction = "reverse";
         }
@@ -105,6 +109,9 @@ export class ReversibleAudioBufferSourceNode {
             );
 
             this.forwardNode.start(0, forwardStartTime);
+            this.forwardNode.onended = this.onendedHandler;
+
+            this.reverseNode.onended = null;
             this.reverseNode.stop();
             this.direction = "forward";
         }
@@ -122,8 +129,16 @@ export class ReversibleAudioBufferSourceNode {
     }
 
     playbackRate(rate: number) {
-        this.forwardNode.playbackRate(rate);
-        this.reverseNode.playbackRate(rate);
+        const absRate = Math.abs(rate);
+        this.forwardNode.playbackRate(absRate);
+        this.reverseNode.playbackRate(absRate);
+
+        if (this.direction === "forward" && rate < 0) {
+            this.setDirection("reverse");
+        }
+        if (this.direction === "reverse" && rate > 0) {
+            this.setDirection("forward");
+        }
     }
 
     start() {
@@ -154,7 +169,7 @@ export class ReversibleAudioBufferSourceNode {
     }
 
     set onended(handler: () => void) {
-        this.forwardNode.onended = handler;
-        this.reverseNode.onended = handler;
+        this.onendedHandler = handler;
+        this.activeNode().onended = handler;
     }
 }
