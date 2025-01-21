@@ -72,10 +72,26 @@ export class ReversibleAudioBufferSourceNode {
         this.reverseNode.buffer = computedBuffers.reverse;
     }
 
-    /**
-     * Utility method to manage which directional node is playing.
-     */
-    private setDirection(direction: ReversibleAudioBufferSourceNodeDirection) {
+    private activeNode() {
+        return this.direction === "forward"
+            ? this.forwardNode
+            : this.reverseNode;
+    }
+
+    detune(value: number) {
+        this.forwardNode.detune(value);
+        this.reverseNode.detune(value);
+    }
+
+    playbackRate(rate: number) {
+        const absRate = Math.abs(rate);
+
+        this.forwardNode.playbackRate(absRate);
+        this.reverseNode.playbackRate(absRate);
+
+        const direction: ReversibleAudioBufferSourceNodeDirection =
+            rate < 0 ? "reverse" : "forward";
+
         if (this.maxDuration === null) {
             throw new ReversibleAudioBufferSourceNodeError(
                 "No audio buffer set",
@@ -99,9 +115,7 @@ export class ReversibleAudioBufferSourceNode {
             this.forwardNode.onended = null;
             this.forwardNode.stop();
             this.direction = "reverse";
-        }
-
-        if (this.direction === "reverse" && direction === "forward") {
+        } else if (this.direction === "reverse" && direction === "forward") {
             const playbackPosition = this.reverseNode.playbackPosition();
             const forwardStartTime = Math.max(
                 this.maxDuration - playbackPosition * this.maxDuration,
@@ -114,30 +128,6 @@ export class ReversibleAudioBufferSourceNode {
             this.reverseNode.onended = null;
             this.reverseNode.stop();
             this.direction = "forward";
-        }
-    }
-
-    private activeNode() {
-        return this.direction === "forward"
-            ? this.forwardNode
-            : this.reverseNode;
-    }
-
-    detune(value: number) {
-        this.forwardNode.detune(value);
-        this.reverseNode.detune(value);
-    }
-
-    playbackRate(rate: number) {
-        const absRate = Math.abs(rate);
-        this.forwardNode.playbackRate(absRate);
-        this.reverseNode.playbackRate(absRate);
-
-        if (this.direction === "forward" && rate < 0) {
-            this.setDirection("reverse");
-        }
-        if (this.direction === "reverse" && rate > 0) {
-            this.setDirection("forward");
         }
     }
 
