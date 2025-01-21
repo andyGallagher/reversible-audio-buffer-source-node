@@ -7,61 +7,10 @@
 // composite audio node:
 // https://github.com/GoogleChromeLabs/web-audio-samples/wiki/CompositeAudioNode
 
-/**
- * @see makeAudioBufferWithPlaybackPositionChannel for additional commentary
- */
-const makePlaybackPositionChannelData = (
-    audioBuffer: AudioBuffer,
-): Float32Array => {
-    const length = audioBuffer.length;
-    // Fill up the position channel with numbers from 0 to 1.
-    // Most performant implementation to create the big array is via "for"
-    // https://stackoverflow.com/a/53029824
-    const timeDataArray = new Float32Array(length);
-
-    for (let i = 0; i < length; i++) {
-        timeDataArray[i] = i / length;
-    }
-
-    return timeDataArray;
-};
-
-/**
- * God this is really tricky.
- * @see PlaybackPositionNode for some links as to why we construct the audio context this way
- */
-const makeAudioBufferWithPlaybackPositionChannel = (
-    audioBuffer: AudioBuffer,
-    playbackPositionChannelData: Float32Array,
-) => {
-    // create a new AudioBuffer of the same length as param with one extra channel
-    // load it into the AudioBufferSourceNode
-    const audioBufferWithPlaybackPositionChannel = new AudioBuffer({
-        length: audioBuffer.length,
-        sampleRate: audioBuffer.sampleRate,
-        numberOfChannels: audioBuffer.numberOfChannels + 1,
-    });
-
-    for (let index = 0; index < audioBuffer.numberOfChannels; index++) {
-        const writeChannelData =
-            audioBufferWithPlaybackPositionChannel.getChannelData(index);
-        const readChannelData = audioBuffer.getChannelData(index);
-        for (let i = 0; i < readChannelData.length; i++) {
-            writeChannelData[i] = readChannelData[i];
-        }
-    }
-
-    const writeChannelData =
-        audioBufferWithPlaybackPositionChannel.getChannelData(
-            audioBuffer.numberOfChannels,
-        );
-
-    for (let i = 0; i < playbackPositionChannelData.length; i++) {
-        writeChannelData[i] = playbackPositionChannelData[i];
-    }
-
-    return audioBufferWithPlaybackPositionChannel;
-};
+import {
+    makeAudioBufferWithPlaybackPositionChannel,
+    makePlaybackPositionChannelData,
+} from "./util";
 
 export class PlaybackPositionNodeError extends Error {
     constructor(message: string) {
@@ -80,11 +29,6 @@ export class PlaybackPositionNode {
     private bufferSourceOptions = {
         playbackRate: 1,
         detune: 0,
-
-        // # TODO: implement loop
-        loop: false,
-        loopStart: 0,
-        loopEnd: 0,
     };
 
     private splitter: ChannelSplitterNode;
