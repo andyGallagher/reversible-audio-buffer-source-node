@@ -101,3 +101,5 @@ For more details, see our [`makePlaybackPositionChannelData` and `makeAudioBuffe
 ## Things this package does not yet support:
 
 - Looping, but I'm looking into it.
+- `duration` arg for `.start()`, but I'm looking into it.
+- `MediaElementAudioSourceNode` support
