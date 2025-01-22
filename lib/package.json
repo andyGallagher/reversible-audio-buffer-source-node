@@ -11,7 +11,7 @@
         "lint": "tsc",
         "local-release": "changeset version && changeset publish",
         "prepublishOnly": "pnpm run ci",
-        "test": "vitest"
+        "test": "vitest run"
     },
     "main": "dist/index.js",
     "type": "module",
