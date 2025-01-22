@@ -1,4 +1,4 @@
-import { ReversibleAudioBufferSourceNode } from "lib/src";
+import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-source-node";
 
 let didInitialize = false;
 let isPlaying = false;
