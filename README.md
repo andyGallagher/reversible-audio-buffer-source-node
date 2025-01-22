@@ -9,7 +9,7 @@ import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-
 
 (async () => {
     // Pull down a local file and initialize an audio context.
-    const audioContext = new window.AudioContext();
+    const audioContext = new AudioContext();
     const response = await fetch("/example.mp3");
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);

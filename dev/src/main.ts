@@ -10,7 +10,7 @@ const onInteractionHandler = async () => {
 
     didInitialize = true;
 
-    const audioContext = new window.AudioContext();
+    const audioContext = new AudioContext();
     const response = await fetch("/example.mp3");
     const arrayBuffer = await response.arrayBuffer();
 
