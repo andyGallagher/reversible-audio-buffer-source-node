@@ -15,7 +15,7 @@
     },
     "main": "dist/index.js",
     "type": "module",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "homepage": "https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node",
     "keywords": [
         "reversible",
