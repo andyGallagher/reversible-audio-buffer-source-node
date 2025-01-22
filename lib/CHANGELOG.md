@@ -1,6 +1,12 @@
-# reversible-audio-buffer-source-node
+# simple-reversible-audio-buffer-source-node
 
-## 0.0.2
+## 0.0.1
+
+### Patch Changes
+
+- init
+
+## 0.0.0
 
 ### Patch Changes
 
