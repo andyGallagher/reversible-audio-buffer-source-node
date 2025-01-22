@@ -30,7 +30,7 @@ import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-
     await new Promise((resolve) => setTimeout(resolve, 3_000));
 
     // Playback in reverse.
-    // You should hear the three seconds or so played backwards.
+    // You should hear the last three seconds (or so) played backwards.
     reversibleAudioBufferSourceNode.playbackRate(-1);
 })();
 ```
