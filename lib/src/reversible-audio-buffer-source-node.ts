@@ -158,8 +158,8 @@ export class ReversibleAudioBufferSourceNode {
         }
     }
 
-    start() {
-        this.activeNode().start();
+    start(when?: number, offset?: number) {
+        this.activeNode().start(when, offset);
     }
 
     stop() {

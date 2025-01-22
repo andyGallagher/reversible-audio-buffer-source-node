@@ -96,7 +96,7 @@ export class PlaybackPositionNode {
         return this.sampleHolder[0];
     }
 
-    start(when?: number, offset?: number, duration?: number): void {
+    start(when?: number, offset?: number): void {
         if (this.audioBuffer === null) {
             throw new PlaybackPositionNodeError("No audio buffer set");
         }
@@ -121,7 +121,7 @@ export class PlaybackPositionNode {
             this.splitter.connect(this.out, index, index);
         }
 
-        this.bufferSource.start(when, offset, duration);
+        this.bufferSource.start(when, offset);
         this.splitter.connect(this.analyser, audioBufferNumberOfChannels);
 
         this.isPlaying = true;
