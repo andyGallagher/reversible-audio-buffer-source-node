@@ -26,6 +26,14 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: "pnpm"
             - name: Install dependencies
-              run: pnpm install
-            - name: Run CI
-              run: pnpm --dir=lib ci
+              run: pnpm --dir=lib install
+            - name: Build
+              run: pnpm --dir=lib build
+            - name: Check format
+              run: pnpm --dir=lib check-format
+            - name: Check exports
+              run: pnpm --dir=lib check-exports
+            - name: Lint
+              run: pnpm --dir=lib lint
+            - name: Test
+              run: pnpm --dir=lib test
