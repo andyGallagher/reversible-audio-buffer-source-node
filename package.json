@@ -1,40 +1,16 @@
 {
-    "name": "reversible-audio-buffer-source-node",
-    "version": "0.0.1",
-    "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
-        "build": "DIST=$(pwd)/dist pnpm --dir=lib build",
-        "ci": "pnpm build  && pnpm check-format",
-        "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
-        "check-format": "pnpm --recursive --if-present --filter=!notifications --parallel check-format",
-        "dev": "pnpm --dir=dev dev",
-        "format": "pnpm run --recursive --if-present --filter=!notifications --parallel format",
-        "test": "vitest"
-    },
-    "homepage": "https://github.com/andyGallagher/reversible-audio-buffer-source-node",
-    "keywords": [
-        "reversible",
-        "audio",
-        "node",
-        "buffer",
-        "webaudio",
-        "negative",
-        "playback",
-        "playbackrate"
-    ],
-    "author": "Andy Gallagher (https://www.andy-gallagher.com)",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/andyGallagher/reversible-audio-buffer-source-node.git"
+        "dev": "pnpm --dir=dev dev"
     },
     "license": "MIT",
-    "main": "dist/index.js",
     "devDependencies": {
         "@arethetypeswrong/cli": "^0.17.3",
+        "@changesets/cli": "^2.27.11",
         "@types/node": "^22.10.5",
         "eslint": "^8.57.0",
         "eslint-plugin-no-relative-import-paths": "^1.6.1",
         "prettier": "^3.4.2",
+        "tsup": "^8.3.5",
         "tsx": "^4.19.2",
         "typescript": "~5.6.2",
         "vitest": "^3.0.2"

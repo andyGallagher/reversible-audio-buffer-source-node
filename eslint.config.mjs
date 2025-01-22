@@ -32,7 +32,7 @@ export default tseslint.config(
     tseslint.configs.base,
 
     {
-        name: "reversible-audio-buffer-source-node/base",
+        name: "simple-reversible-audio-buffer-source-node/base",
 
         files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
 
