@@ -1,7 +1,5 @@
-/**
- * Much inspiraction from this code comes from the this github thread:
- * @see https://github.com/WebAudio/web-audio-api/issues/2397
- */
+// Much inspiration from this code comes from this GitHub thread:
+// @see https://github.com/WebAudio/web-audio-api/issues/2397
 
 import {
     makeAudioBufferWithPlaybackPositionChannel,
