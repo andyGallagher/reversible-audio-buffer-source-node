@@ -42,8 +42,8 @@ importers:
   dev:
     dependencies:
       simple-reversible-audio-buffer-source-node:
-        specifier: ^0.0.1
-        version: 0.0.1
+        specifier: ^0.0.2
+        version: 0.0.2
     devDependencies:
       vite:
         specifier: ^6.0.5
@@ -1464,8 +1464,8 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  simple-reversible-audio-buffer-source-node@0.0.1:
-    resolution: {integrity: sha512-cYpQGYUQ07UTrDj3u0gStZ0OJT3b6kR3zDZuU1IrRRiJjuDAOpbgasiZfY1a4WHzsa4G58JKd4/sABPSaYL+Xg==}
+  simple-reversible-audio-buffer-source-node@0.0.2:
+    resolution: {integrity: sha512-SXD/5YB5OO6WrPZBE1mhJYvCTqgNdyEqqw9fTLKI4duQTutxot3kEOfMdLb8tvGez4d4VBMHOi+7kTiZDPLpvQ==}
 
   skin-tone@2.0.0:
     resolution: {integrity: sha512-kUMbT1oBJCpgrnKoSr0o6wPtvRWT9W9UKvGLwfJYO2WuahZRHOpEyL1ckyMGgMWh0UdpmaoFqKKD29WTomNEGA==}
@@ -3097,7 +3097,7 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  simple-reversible-audio-buffer-source-node@0.0.1: {}
+  simple-reversible-audio-buffer-source-node@0.0.2: {}
 
   skin-tone@2.0.0:
     dependencies:
