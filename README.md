@@ -1,14 +1,14 @@
 # simple-reversible-audio-buffer-source-node
 
-This package implements a `ReversibleAudioBufferSourceNode` class, which allows for playback of an `AudioBuffer` with a negative playback rate. This will play the AudioBuffer in reverse. This is useful starting point for many DJ and audio processing applications.
+This package implements a `ReversibleAudioBufferSourceNode` class that allows for playback of an `AudioBuffer` with a negative playback rate. This is useful starting point for many DJ and audio processing applications, where reverse playback is a requirement.
 
-To use this class, clone this repo and [spin up our dev server](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/tree/main/dev), or install this via `npm i simple-reversible-audio-buffer-source-node` and try the following in a browser environment:
+To use this class, clone this repo and [spin up our dev server](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/tree/main/dev), or install this via `npm i simple-reversible-audio-buffer-source-node` and try the following example in a browser environment:
 
 ```typescript
 import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-source-node";
 
 (async () => {
-    // Pull down a local file initialize an audio context.
+    // Pull down a local file and initialize an audio context.
     const audioContext = new window.AudioContext();
     const response = await fetch("/example.mp3");
     const arrayBuffer = await response.arrayBuffer();
@@ -30,14 +30,14 @@ import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-
     await new Promise((resolve) => setTimeout(resolve, 3_000));
 
     // Playback in reverse.
-    // You should hear the first second or so play backwards.
+    // You should hear the three seconds or so played backwards.
     reversibleAudioBufferSourceNode.playbackRate(-1);
 })();
 ```
 
 ## Performance considerations
 
-This package specifically deals with `AudioBuffer`s, and can quickly get somewhat computationally expensive to use when working with large buffers. It's important to note that `AudioBuffer`s in general were designed to [work with small audio snippets less than 45s in length](https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer).
+This package specifically deals with `AudioBuffer`s, and can quickly get computationally expensive to use when working with large buffers. It's important to note that `AudioBuffer`s in general were designed to [work with small audio snippets less than 45s in length](https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer).
 
 That said, this package does leave some room for a few performance optimizations, noted below.
 
@@ -55,7 +55,7 @@ reversibleAudioBufferSourceNode.buffer = {
 };
 ```
 
-Otherwise, there will be an in place creation of a reversed audio buffer, which can be expensive.
+Otherwise, there will be an in-place creation of a reversed audio buffer, which can be expensive.
 For more details, see our [`reverseAudioBuffer`](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utility.
 
 ### Pre-process playback position channel
@@ -96,7 +96,7 @@ const reversibleAudioBufferSourceNode = new ReversibleAudioBufferSourceNode(
 reversibleAudioBufferSourceNode.buffer = audioBufferWithPlaybackPositionChannel;
 ```
 
-Otherwise, there will be an in place creation of a playback position channel, which can be expensive.
+Otherwise, there will be an in-place creation of a playback position channel, which can be expensive.
 For more details, see our [`makePlaybackPositionChannelData` and `makeAudioBufferWithPlaybackPositionChannel`](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utilities.
 
 ## Things this package does not yet support:

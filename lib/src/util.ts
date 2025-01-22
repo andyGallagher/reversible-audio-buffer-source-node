@@ -63,16 +63,17 @@ export const makePlaybackPositionChannelData = (
  * preprocessed audio buffers.
  */
 export const makeAudioBufferWithPlaybackPositionChannel = (
+    audioContext: AudioContext,
     audioBuffer: AudioBuffer,
     playbackPositionChannelData: Float32Array,
 ) => {
     // create a new AudioBuffer of the same length as param with one extra channel
     // load it into the AudioBufferSourceNode
-    const audioBufferWithPlaybackPositionChannel = new AudioBuffer({
-        length: audioBuffer.length,
-        sampleRate: audioBuffer.sampleRate,
-        numberOfChannels: audioBuffer.numberOfChannels + 1,
-    });
+    const audioBufferWithPlaybackPositionChannel = audioContext.createBuffer(
+        audioBuffer.numberOfChannels + 1,
+        audioBuffer.length,
+        audioBuffer.sampleRate,
+    );
 
     for (let index = 0; index < audioBuffer.numberOfChannels; index++) {
         const writeChannelData =

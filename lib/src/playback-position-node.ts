@@ -20,7 +20,7 @@ export class PlaybackPositionNodeError extends Error {
 }
 
 export class PlaybackPositionNode {
-    public context: BaseAudioContext;
+    public context: AudioContext;
 
     private audioBuffer: AudioBuffer | null = null;
     private bufferSource: AudioBufferSourceNode | null = null;
@@ -42,10 +42,7 @@ export class PlaybackPositionNode {
 
     private isPlaying: boolean = false;
 
-    constructor(
-        context: BaseAudioContext,
-        options?: PlaybackPositionNodeOptions,
-    ) {
+    constructor(context: AudioContext, options?: PlaybackPositionNodeOptions) {
         this.context = context;
 
         this.splitter = new ChannelSplitterNode(context);
@@ -67,6 +64,7 @@ export class PlaybackPositionNode {
             makePlaybackPositionChannelData(audioBuffer);
         const audioBufferWithPlaybackPositionChannel =
             makeAudioBufferWithPlaybackPositionChannel(
+                this.context,
                 audioBuffer,
                 playbackPositionChannel,
             );

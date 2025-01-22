@@ -4,7 +4,7 @@
     "scripts": {
         "prebuild": "cp ../README.md ./",
         "build": "tsup",
-        "ci": "pnpm build && pnpm check-format && pnpm check-exports && pnpm lint",
+        "ci": "pnpm build && pnpm check-format && pnpm check-exports && pnpm lint && pnpm test",
         "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
         "check-format": "prettier --check ./src",
         "format": "prettier --write ./src",
@@ -41,5 +41,8 @@
     },
     "files": [
         "dist"
-    ]
+    ],
+    "devDependencies": {
+        "node-web-audio-api": "^1.0.1"
+    }
 }
