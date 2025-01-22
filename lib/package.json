@@ -4,6 +4,8 @@
     "description": "Library functions for the reversible-audio-buffer-source-node",
     "scripts": {
         "build": "tsc --outDir $DIST",
+        "check-format": "prettier --check .",
         "format": "prettier --write ."
-    }
+    },
+    "type": "module"
 }

@@ -6,7 +6,7 @@
 import {
     makeAudioBufferWithPlaybackPositionChannel,
     makePlaybackPositionChannelData,
-} from "./util";
+} from "./util.js";
 
 export type PlaybackPositionNodeOptions = {
     shouldCreatePlaybackPositionChannel: boolean;

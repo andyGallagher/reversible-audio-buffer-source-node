@@ -4,6 +4,9 @@
     "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
         "build": "DIST=$(pwd)/dist pnpm --dir=lib build",
+        "ci": "pnpm build  && pnpm check-format",
+        "check-exports": "attw --pack . --ignore-rules=cjs-resolves-to-esm",
+        "check-format": "pnpm --recursive --if-present --filter=!notifications --parallel check-format",
         "dev": "pnpm --dir=dev dev",
         "format": "pnpm run --recursive --if-present --filter=!notifications --parallel format",
         "test": "vitest"
@@ -25,8 +28,9 @@
         "url": "git+https://github.com/andyGallagher/reversible-audio-buffer-source-node.git"
     },
     "license": "MIT",
-    "main": "index.js",
+    "main": "dist/index.js",
     "devDependencies": {
+        "@arethetypeswrong/cli": "^0.17.3",
         "@types/node": "^22.10.5",
         "eslint": "^8.57.0",
         "eslint-plugin-no-relative-import-paths": "^1.6.1",
