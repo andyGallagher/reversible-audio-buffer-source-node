@@ -6,7 +6,7 @@
 import {
     makeAudioBufferWithPlaybackPositionChannel,
     makePlaybackPositionChannelData,
-} from "./util.js";
+} from "./util";
 
 export type PlaybackPositionNodeOptions = {
     shouldCreatePlaybackPositionChannel: boolean;
@@ -134,7 +134,7 @@ export class PlaybackPositionNode {
     stop() {
         // If we're not playing, don't stop and throw an error.
         // Note that we call `stop` on nodes that have not started playing in
-        // `reversible-audio-buffer-source-node`, and we can probably manage that better and get
+        // `simple-reversible-audio-buffer-source-node`, and we can probably manage that better and get
         // closer to default WebAudioAPI behavior.
         if (!this.isPlaying) {
             return;

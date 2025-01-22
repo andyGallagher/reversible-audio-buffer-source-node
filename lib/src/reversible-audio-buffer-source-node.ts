@@ -1,8 +1,8 @@
 import {
     PlaybackPositionNode,
     PlaybackPositionNodeOptions,
-} from "./playback-position-node.js";
-import { reverseAudioBuffer } from "./util.js";
+} from "./playback-position-node";
+import { reverseAudioBuffer } from "./util";
 
 export type ReversibleAudioBufferSourceNodeOptions =
     PlaybackPositionNodeOptions & {};

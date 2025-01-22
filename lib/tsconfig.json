@@ -1,23 +1,16 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": false,
-    /* If transpiling with TypeScript: */
-    "module": "NodeNext",
-    "rootDir": "src",
-    "sourceMap": true,
-    /* AND if you're building for a library: */
-    "declaration": true,
-    /* AND if you're building for a library in a monorepo: */
-    "declarationMap": true
-  },
-  "include": [
-    "src"
-  ]
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "target": "es2022",
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "moduleDetection": "force",
+        "isolatedModules": true,
+        "verbatimModuleSyntax": false,
+        "noEmit": true,
+        /* If transpiling with TypeScript: */
+        "module": "Preserve"
+    },
+    "include": ["src"]
 }
