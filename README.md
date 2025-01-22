@@ -70,7 +70,6 @@ A user can supply the reversed audio buffer with an additional playback position
 import {
     makePlaybackPositionChannelData,
     makeAudioBufferWithPlaybackPositionChannel,
-    ReversibleAudioBufferSourceNode,
 } from "simple-reversible-audio-buffer-source-node";
 
 const playbackPositionChannel = makePlaybackPositionChannelData(audioBuffer);
