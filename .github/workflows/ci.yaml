@@ -11,7 +11,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    ci:
+    simple-ci:
         runs-on: ubuntu-latest
 
         steps:
