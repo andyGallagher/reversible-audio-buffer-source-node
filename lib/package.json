@@ -1,11 +1,11 @@
 {
-    "private": true,
-    "name": "lib",
-    "description": "Library functions for the reversible-audio-buffer-source-node",
+    "name": "reversible-audio-buffer-source-node",
+    "description": "AudioBufferSourceNode variant that supports negative playback rate",
     "scripts": {
-        "build": "tsc --outDir $DIST",
         "check-format": "prettier --check .",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "lint": "tsc"
     },
-    "type": "module"
+    "type": "module",
+    "version": "0.0.2"
 }
