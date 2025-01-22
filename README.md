@@ -1,11 +1,11 @@
-# reversible-audio-buffer-source-node
+# simple-reversible-audio-buffer-source-node
 
 This package implements a `ReversibleAudioBufferSourceNode` class, which allows for playback of an `AudioBuffer` with a negative playback rate. This will play the AudioBuffer in reverse. This is useful starting point for many DJ and audio processing applications.
 
-To use this class, clone this repo and [spin up our dev server](https://github.com/andyGallagher/reversible-audio-buffer-source-node/tree/main/dev), or install this via `npm i reversible-audio-buffer-source-node` and try the following in a browser environment:
+To use this class, clone this repo and [spin up our dev server](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/tree/main/dev), or install this via `npm i simple-reversible-audio-buffer-source-node` and try the following in a browser environment:
 
 ```typescript
-import { ReversibleAudioBufferSourceNode } from "reversible-audio-buffer-source-node";
+import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-source-node";
 
 (async () => {
     // Pull down a local file initialize an audio context.
@@ -26,7 +26,7 @@ import { ReversibleAudioBufferSourceNode } from "reversible-audio-buffer-source-
         console.log(`node ended in: ${direction}`);
     });
 
-    // Wait for a few second...
+    // Wait for a few seconds...
     await new Promise((resolve) => setTimeout(resolve, 3_000));
 
     // Playback in reverse.
@@ -56,7 +56,7 @@ reversibleAudioBufferSourceNode.buffer = {
 ```
 
 Otherwise, there will be an in place creation of a reversed audio buffer, which can be expensive.
-For more details, see our [`reverseAudioBuffer`](https://github.com/andyGallagher/reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utility.
+For more details, see our [`reverseAudioBuffer`](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utility.
 
 ### Pre-process playback position channel
 
@@ -71,7 +71,7 @@ import {
     makePlaybackPositionChannelData,
     makeAudioBufferWithPlaybackPositionChannel,
     ReversibleAudioBufferSourceNode,
-} from "reversible-audio-buffer-source-node";
+} from "simple-reversible-audio-buffer-source-node";
 
 const playbackPositionChannel = makePlaybackPositionChannelData(audioBuffer);
 const audioBufferWithPlaybackPositionChannel =
@@ -85,7 +85,7 @@ const audioBufferWithPlaybackPositionChannel =
 //
 
 // In a browser environment:
-import { ReversibleAudioBufferSourceNode } from "reversible-audio-buffer-source-node";
+import { ReversibleAudioBufferSourceNode } from "simple-reversible-audio-buffer-source-node";
 
 const reversibleAudioBufferSourceNode = new ReversibleAudioBufferSourceNode(
     audioContext,
@@ -97,7 +97,7 @@ reversibleAudioBufferSourceNode.buffer = audioBufferWithPlaybackPositionChannel;
 ```
 
 Otherwise, there will be an in place creation of a playback position channel, which can be expensive.
-For more details, see our [`makePlaybackPositionChannelData` and `makeAudioBufferWithPlaybackPositionChannel`](https://github.com/andyGallagher/reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utilities.
+For more details, see our [`makePlaybackPositionChannelData` and `makeAudioBufferWithPlaybackPositionChannel`](https://github.com/andyGallagher/simple-reversible-audio-buffer-source-node/blob/main/lib/src/util.ts) utilities.
 
 ## Things this package does not yet support:
 
